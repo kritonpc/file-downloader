@@ -1,0 +1,73 @@
+
+# Default values for file-downloader
+
+image:
+  repository: ghcr.io/yourusername/file-downloader
+  tag: latest
+  pullPolicy: IfNotPresent
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/yourusername/file-downloader-frontend
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+backend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/yourusername/file-downloader-backend
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 5000
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: file-downloader.truenas.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: file-downloader-tls
+      hosts:
+        - file-downloader.truenas.local
+
+persistence:
+  downloads:
+    enabled: true
+    mountPath: /downloads
+    size: 10Gi
+    accessMode: ReadWriteOnce
+    storageClass: ""
+    # For TrueNAS SCALE, you can use an existing dataset
+    # existingClaim: "downloads-dataset"
+    
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
