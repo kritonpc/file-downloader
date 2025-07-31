@@ -1,0 +1,47 @@
+# Exclude node modules
+node_modules
+npm-debug.log
+
+# Exclude git and version control
+.git
+.gitignore
+.gitattributes
+
+# Exclude documentation
+*.md
+LICENSE
+
+# Exclude development files
+.env
+.env.*
+.editorconfig
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
+
+# Exclude test files
+__tests__
+test
+tests
+*.test.js
+*.spec.js
+
+# Exclude build artifacts
+dist
+build
+coverage
+
+# Exclude Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Exclude IDE specific files
+.idea
+.vscode
+*.sublime-*
+
+# Exclude system files
+.DS_Store
+Thumbs.db

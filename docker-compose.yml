@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - PORT=5000
+      - DOWNLOAD_DIR=/downloads
+      - NODE_ENV=production
+    volumes:
+      - download_data:/downloads
+    restart: unless-stopped
+
+volumes:
+  download_data:
+    driver: local
